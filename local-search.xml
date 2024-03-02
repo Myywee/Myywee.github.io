@@ -4,11 +4,36 @@
   
   
   <entry>
+    <title>Overviewe of Compiler Principles</title>
+    <link href="/2024/03/02/Overviewe-of-Compiler-Principles/"/>
+    <url>/2024/03/02/Overviewe-of-Compiler-Principles/</url>
+    
+    <content type="html"><![CDATA[<h1 id="编译原理概述"><a href="#编译原理概述" class="headerlink" title="编译原理概述"></a>编译原理概述</h1><p><img src="/../../../images/Overviewe-of-Compiler-Principles/image-20240302194925785.png"></p>]]></content>
+    
+    
+    <categories>
+      
+      <category>编译原理</category>
+      
+    </categories>
+    
+    
+    <tags>
+      
+      <tag>Notes</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
     <title>Dynamic Programming</title>
     <link href="/2024/02/29/Dynamic-Programming/"/>
     <url>/2024/02/29/Dynamic-Programming/</url>
     
-    <content type="html"><![CDATA[]]></content>
+    <content type="html"><![CDATA[<h1 id="Dynamic-Programming"><a href="#Dynamic-Programming" class="headerlink" title="Dynamic-Programming"></a>Dynamic-Programming</h1><h2 id="什么是动态规划"><a href="#什么是动态规划" class="headerlink" title="什么是动态规划"></a>什么是动态规划</h2>]]></content>
     
     
     <categories>
