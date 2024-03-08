@@ -16,24 +16,22 @@
   <meta name="author" content="Myywee">
   <meta name="keywords" content="">
   
-    <meta name="description" content="词法分析器 ANTLR v4 词法分析器的三种设计方法  ANTLR 词法分析器生成器 手写词法分析器 自动化词法分析器  ANTLR 词法分析器生成器输入 词法单元的规约 SimpleExpr.g4 输出 词法分析器 SimpleExprLexer.java 123456789101112131415161718192021222324252627282930313233343536373839">
+    <meta name="description" content="正则表达式正则表达式元字符和特性字符匹配  普通字符：普通字符按照字面意义进行匹配 元字符：元字符具有特殊含义，例如’\d’匹配任意数字字符，’\w’匹配任意字母数字字符，.匹配任意字符等  量词  *: 匹配前面的模式零次或多次 +: 匹配前面的模式一次或多次 ?: 匹配前面的模式零次或一次 {n}: 匹配前面的模式恰好n次 {n,}: 匹配前面的模式至少n次 {n,m}: 匹配前面的模式至少n">
 <meta property="og:type" content="article">
-<meta property="og:title" content="ANTLR v4">
-<meta property="og:url" content="https://myywee.github.io/2024/03/06/ANTLR-v4/index.html">
+<meta property="og:title" content="Regular Expression">
+<meta property="og:url" content="https://myywee.github.io/2024/03/08/Regular-Expression/index.html">
 <meta property="og:site_name" content="Myywee">
-<meta property="og:description" content="词法分析器 ANTLR v4 词法分析器的三种设计方法  ANTLR 词法分析器生成器 手写词法分析器 自动化词法分析器  ANTLR 词法分析器生成器输入 词法单元的规约 SimpleExpr.g4 输出 词法分析器 SimpleExprLexer.java 123456789101112131415161718192021222324252627282930313233343536373839">
+<meta property="og:description" content="正则表达式正则表达式元字符和特性字符匹配  普通字符：普通字符按照字面意义进行匹配 元字符：元字符具有特殊含义，例如’\d’匹配任意数字字符，’\w’匹配任意字母数字字符，.匹配任意字符等  量词  *: 匹配前面的模式零次或多次 +: 匹配前面的模式一次或多次 ?: 匹配前面的模式零次或一次 {n}: 匹配前面的模式恰好n次 {n,}: 匹配前面的模式至少n次 {n,m}: 匹配前面的模式至少n">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="https://myywee.github.io/images/ANTLR-v4/image-20240306192034267.png">
-<meta property="article:published_time" content="2024-03-06T11:19:17.000Z">
-<meta property="article:modified_time" content="2024-03-06T13:03:47.353Z">
+<meta property="article:published_time" content="2024-03-08T01:30:47.000Z">
+<meta property="article:modified_time" content="2024-03-08T03:51:58.747Z">
 <meta property="article:author" content="Myywee">
 <meta property="article:tag" content="Notes">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:image" content="https://myywee.github.io/images/ANTLR-v4/image-20240306192034267.png">
   
   
   
-  <title>ANTLR v4 - Myywee</title>
+  <title>Regular Expression - Myywee</title>
 
   <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
 
@@ -199,7 +197,7 @@
       <div class="banner-text text-center fade-in-up">
         <div class="h2">
           
-            <span id="subtitle" data-typed-text="ANTLR v4"></span>
+            <span id="subtitle" data-typed-text="Regular Expression"></span>
           
         </div>
 
@@ -215,8 +213,8 @@
     
       <span class="post-meta">
         <i class="iconfont icon-date-fill" aria-hidden="true"></i>
-        <time datetime="2024-03-06 19:19" pubdate>
-          2024年3月6日 晚上
+        <time datetime="2024-03-08 09:30" pubdate>
+          2024年3月8日 上午
         </time>
       </span>
     
@@ -227,7 +225,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          249 字
+          921 字
         
       </span>
     
@@ -238,7 +236,7 @@
         
         
         
-          3 分钟
+          8 分钟
         
       </span>
     
@@ -275,28 +273,98 @@
       <div class="container nopadding-x-md" id="board-ctn">
         <div id="board">
           <article class="post-content mx-auto">
-            <h1 id="seo-header">ANTLR v4</h1>
+            <h1 id="seo-header">Regular Expression</h1>
             
             
               <div class="markdown-body">
                 
-                <h1 id="词法分析器-ANTLR-v4"><a href="#词法分析器-ANTLR-v4" class="headerlink" title="词法分析器 ANTLR v4"></a>词法分析器 ANTLR v4</h1><p><img src="/../../images/ANTLR-v4/image-20240306192034267.png" srcset="/img/loading.gif" lazyload alt="image-20240306192034267"></p>
-<p><strong>词法分析器的三种设计方法</strong></p>
-<ol>
-<li>ANTLR 词法分析器生成器</li>
-<li>手写词法分析器</li>
-<li>自动化词法分析器</li>
-</ol>
-<h2 id="ANTLR-词法分析器生成器"><a href="#ANTLR-词法分析器生成器" class="headerlink" title="ANTLR 词法分析器生成器"></a>ANTLR 词法分析器生成器</h2><p><strong>输入</strong></p>
-<p>词法单元的规约 SimpleExpr.g4</p>
-<p><strong>输出</strong></p>
-<p>词法分析器 SimpleExprLexer.java</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br></pre></td><td class="code"><pre><code class="hljs g4">//SimpleExpr.g4<br>grammar SimpleExpr;<br><br>@header&#123;<br>package simpleexpr;<br>&#125;<br><br>prog :  stat*EOF;// 一个program由若干个stat构成并以EOF结尾<br><br>stat : expr &#x27;;&#x27;<br>     | ID &#x27;=&#x27; expr &#x27;;&#x27; // 赋值语句<br>     | &#x27;print&#x27; expr &#x27;;&#x27;<br>     ;<br><br>expr : expr (&#x27;*&#x27; | &#x27;/&#x27;) expr <br>     | expr (&#x27;+&#x27; | &#x27;-&#x27;) expr // 优先级高的写在前面<br>     | &#x27;(&#x27; expr &#x27;)&#x27;<br>     | ID<br>     | INT<br>     ;<br>     <br>ID : (&#x27;_&#x27; | LETTER) WORD* ;<br>INT : &#x27;0&#x27; |(&#x27;+&#x27; | &#x27;-&#x27;)? [1-9]NUMBER* ;<br>FLOAT : INT &#x27;.&#x27; NUMBER*<br>      | &#x27;.&#x27; NUMBER+<br>      ;<br><br>DOCS_COMMENT : &#x27;/**&#x27; .*? &#x27;*/&#x27; -&gt; skip ;<br>SL_COMMENT : &#x27;//&#x27; .*? &#x27;\n&#x27; -&gt; skip ;<br>SL_COMMENT2 : &#x27;//&#x27; (~&#x27;\n&#x27;)* &#x27;\n&#x27; -&gt; skip ;<br>ML_COMMENT : &#x27;/*&#x27; .*? &#x27;*/&#x27; -&gt; skip ;<br><br><br>WS : [\t\r\n]+ -&gt; skip ;<br><br>fragemnt LETTER : [a-zA-Z] ;<br>fragment NUMBER : [0-9] ;<br>fragment WORD : &#x27;_&#x27; | LETTER | NUMBER<br><br><br><br></code></pre></td></tr></table></figure>
-
-<p><strong>ANTLR v4中的冲突解决规则</strong></p>
-<p><strong>最前优先匹配</strong>  关键字 vs 标识符  ML_COMMENT vs DOC_COMMENT</p>
-<p><strong>最长优先匹配</strong>  1.23, &gt;&#x3D;, ifhappy</p>
-<p><strong>非贪婪匹配</strong>  ()??, ()*?, ()+?</p>
+                <h1 id="正则表达式"><a href="#正则表达式" class="headerlink" title="正则表达式"></a>正则表达式</h1><h2 id="正则表达式元字符和特性"><a href="#正则表达式元字符和特性" class="headerlink" title="正则表达式元字符和特性"></a>正则表达式元字符和特性</h2><p><strong>字符匹配</strong></p>
+<ul>
+<li>普通字符：普通字符按照字面意义进行匹配</li>
+<li>元字符：元字符具有特殊含义，例如’\d’匹配任意数字字符，’\w’匹配任意字母数字字符，.匹配任意字符等</li>
+</ul>
+<p><strong>量词</strong></p>
+<ul>
+<li>*: 匹配前面的模式零次或多次</li>
+<li>+: 匹配前面的模式一次或多次</li>
+<li>?: 匹配前面的模式零次或一次</li>
+<li>{n}: 匹配前面的模式恰好n次</li>
+<li>{n,}: 匹配前面的模式至少n次</li>
+<li>{n,m}: 匹配前面的模式至少n次且不超过m次</li>
+</ul>
+<p><strong>字符类</strong></p>
+<ul>
+<li>‘[]’: 匹配括号内的任意的一个字符</li>
+<li>‘[^]’: 匹配除了括号内的字符以外的任意一个字符</li>
+</ul>
+<p><strong>边界匹配</strong></p>
+<ul>
+<li>‘^ ‘: 匹配字符串的开头</li>
+<li>‘$’: 匹配字符串的结尾</li>
+<li>‘\b’: 匹配单词边界</li>
+<li>‘\B’: 匹配非单词边界</li>
+</ul>
+<p><strong>分组和捕获</strong></p>
+<ul>
+<li>(): 用于分组和捕获子表达式</li>
+<li>(?: ): 用于分组但不捕获子表达式</li>
+</ul>
+<p><strong>特殊字符</strong></p>
+<ul>
+<li>‘\‘ : 转义字符，用于匹配特殊字符本身</li>
+<li>‘.’: 匹配任意字符（除了换行符）</li>
+<li>‘|’ : 用于指定多个模式选择</li>
+</ul>
+<h2 id="正则表达式语法"><a href="#正则表达式语法" class="headerlink" title="正则表达式语法"></a>正则表达式语法</h2><p><strong>普通字符</strong></p>
+<ul>
+<li>[ABC] : 匹配 [……] 中的所有字符</li>
+<li>[ ^ ABC] : 匹配除 [……] 中的所有字符</li>
+<li>[A-Z] : 表示一个区间，匹配所有大写字母</li>
+<li>‘.’ : 匹配除换行符(\n、\r)之外的任何单个字符，相当于[ ^ \n\r]</li>
+<li>[\s\S] : 匹配所有；\s是匹配所有空白符，包括换行；\S非空白符，不包括换行</li>
+<li>\w : 匹配任意一个阿拉伯数字（0到9）；等价于[0-9]</li>
+</ul>
+<p><strong>非打印字符</strong></p>
+<ul>
+<li>‘\cX’ : 匹配由x指明的控制字符。例如：’\cM’  匹配一个Control-M或回车符，x的值必须为A-Z或a-z之一；否则，将c视为一个原义的’c’字符</li>
+<li>‘\f’ : 匹配一个换页符，等价于 ‘\x0c’ 和 ‘\cL’</li>
+<li>‘\n’ : 匹配一个换行符，等价于 ‘\x0a’ 和 ‘\cJ’</li>
+<li>‘\r’ : 匹配一个回车符，等价于 ‘\x0d’ 和 ‘\cM’</li>
+<li>‘\s’ : 匹配任何空白字符，包括空格、制表符、换页符等等</li>
+<li>‘\S’ : 匹配任何非空白字符，等价于 [ ^ \f\n\r\t\v]</li>
+<li>‘\t’ : 匹配一个制表符，等价于 ‘\x09’ 和 ‘\cl’</li>
+<li>‘\v’ : 匹配一个垂直制表符，等价于 ‘\x0b’ 和 ‘\cK’</li>
+</ul>
+<p><strong>特殊字符</strong></p>
+<ul>
+<li>‘$’ : 匹配输入字符的结尾位置</li>
+<li>‘()’ :  标记一个子表达式的开始和结束位置，子表达式可以获取供以后使用</li>
+<li>‘*’ : 匹配前面的子表达式零次或多次</li>
+<li>‘+’ : 匹配前面的子表达式一次或多次</li>
+<li>‘.’ : 匹配除换行符 ‘\n’ 之外的任何单字符</li>
+<li>‘[‘ : 标记一个中括号表达式的开始</li>
+<li>‘?’ : 匹配前面的子表达式零次或一次，或指明一个非贪婪限定符</li>
+<li>‘\‘ : 将下一个字符标记为特殊字符、或原义符、或向后引用、或八进制转义符</li>
+<li>‘^’ ： 匹配输入字符串的开始位置；当该符号在方括号表达式中使用时，表达不接受该方括号中的字符集合</li>
+<li>‘{‘ :  标记限定符表达式的开始</li>
+<li>‘|’ : 指明两项之间的一个选择</li>
+</ul>
+<p><strong>限定符</strong></p>
+<ul>
+<li>‘*’ : 匹配前面的模式零次或多次</li>
+<li>‘+’  : 匹配前面的模式一次或多次</li>
+<li>‘?’  : 匹配前面的模式零次或一次</li>
+<li>‘{n}’ ‘: 匹配前面的模式恰好n次</li>
+<li>‘{n,}’ : 匹配前面的模式至少n次</li>
+<li>‘{n,m}’ : 匹配前面的模式至少n次且不超过m次</li>
+</ul>
+<p><strong>定位符</strong></p>
+<ul>
+<li>‘^’ : 匹配输入字符串开始的位置</li>
+<li>‘$’ : 匹配输入字符串结尾的位置</li>
+<li>‘\b’ : 匹配一个单词边界</li>
+<li>‘\B’ : 匹配非单词边界</li>
+</ul>
 
                 
               </div>
@@ -315,7 +383,7 @@
     
       <span class="category-chain">
         
-  <a href="/categories/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86/" class="category-chain-item">编译原理</a>
+  <a href="/categories/Algorithm/" class="category-chain-item">Algorithm</a>
   
   
 
@@ -342,8 +410,8 @@
 
   <div class="license-box my-3">
     <div class="license-title">
-      <div>ANTLR v4</div>
-      <div>https://myywee.github.io/2024/03/06/ANTLR-v4/</div>
+      <div>Regular Expression</div>
+      <div>https://myywee.github.io/2024/03/08/Regular-Expression/</div>
     </div>
     <div class="license-meta">
       
@@ -355,7 +423,7 @@
       
         <div class="license-meta-item license-meta-date">
           <div>发布于</div>
-          <div>2024年3月6日</div>
+          <div>2024年3月8日</div>
         </div>
       
       
@@ -387,18 +455,12 @@
                   <article class="post-prev col-6">
                     
                     
-                      <a href="/2024/03/08/Regular-Expression/" title="Regular Expression">
-                        <i class="iconfont icon-arrowleft"></i>
-                        <span class="hidden-mobile">Regular Expression</span>
-                        <span class="visible-mobile">上一篇</span>
-                      </a>
-                    
                   </article>
                   <article class="post-next col-6">
                     
                     
-                      <a href="/2024/03/03/OS-from-an-Application-Perspective/" title="OS from an Application Perspective">
-                        <span class="hidden-mobile">OS from an Application Perspective</span>
+                      <a href="/2024/03/06/ANTLR-v4/" title="ANTLR v4">
+                        <span class="hidden-mobile">ANTLR v4</span>
                         <span class="visible-mobile">下一篇</span>
                         <i class="iconfont icon-arrowright"></i>
                       </a>
